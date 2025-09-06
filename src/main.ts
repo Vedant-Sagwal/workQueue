@@ -1,4 +1,4 @@
-import express from "express"
+import express, { Request, Response } from "express"
 import workerRouter from "./cmd/worker/workerW";
 import producerRouter from "./cmd/producer/main";
 
@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 app.use("/api", workerRouter);
 app.use("/api", producerRouter);
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.redirect("/api");
 })
 
