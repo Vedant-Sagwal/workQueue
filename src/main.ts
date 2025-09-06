@@ -1,6 +1,6 @@
 import express from "express"
-import workerRouter from "./cmd/worker/workerW";
-import producerRouter from "./cmd/producer/main";
+import workerRouter from "./src/cmd/worker/workerW";
+import producerRouter from "./src/cmd/producer/main";
 
 const app = express();
 app.use(express.json());
