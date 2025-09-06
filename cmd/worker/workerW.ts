@@ -3,7 +3,7 @@ import {ProcessTask} from "../../internal/worker/worker";
 import {LogSuccess, LogFailure} from "../../internal/logger/logger";
 import Redis from "ioredis";
 import dotenv from "dotenv";
-import express, {Response, Request} from "express";
+import Router, {Response, Request} from "express";
 
 dotenv.config();
 
@@ -67,32 +67,22 @@ async function runWorker(rdb : Redis, workerId : number) {
     }
 }
 
+const redis = connectRedis();
+const port = process.env.PORT || "3000";
 
-async function main() {
-    const redis = connectRedis();
-    const port = process.env.PORT || "3000";
-
-    const numWorkers = 3;
-    for (let i = 0; i < numWorkers; i++) {
-        runWorker(redis, i + 1); // launch workers (no blocking)
-    }
-
-    const app = express();
-
-    app.get("/metrics", (req: Request, res: Response) => {
-        res.json({
-            total_jobs_in_queue: totalJobsInQueue,
-            jobs_done: jobsDone,
-            jobs_failed: jobsFailed,
-        });
-    });
-
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}`);
-    });
+const numWorkers = 3;
+for (let i = 0; i < numWorkers; i++) {
+    runWorker(redis, i + 1); // launch workers (no blocking)
 }
 
-main().catch((err) => {
-    console.error("Fatal Error", err);
-    process.exit(1);
+const app = Router();
+
+app.get("/metrics", (req: Request, res: Response) => {
+    res.json({
+        total_jobs_in_queue: totalJobsInQueue,
+        jobs_done: jobsDone,
+        jobs_failed: jobsFailed,
+    });
 });
+export default app;
+

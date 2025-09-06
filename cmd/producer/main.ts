@@ -1,10 +1,9 @@
 import { Task, Metrices } from "../../internal/task/task"
-import express, {Request, Response} from "express";
+import Router, {Request, Response} from "express";
 import dotenv from "dotenv";
 import Redis from "ioredis";
 
-const app = express();
-app.use(express.json());
+const app = Router();
 
 //connect to redis
 const redisUrl = process.env.REDIS_URL;
@@ -42,6 +41,4 @@ app.post("/enqueue", async(req : Request, res : Response) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`Server Started on port : ${port}`)
-})
+export default app;
