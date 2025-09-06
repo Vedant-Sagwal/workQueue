@@ -1,6 +1,6 @@
 import { Task, Metrices } from "../task/task"
 
-function ProcessTask(taskToExecute: Task) {
+export function ProcessTask(taskToExecute: Task) {
   if (taskToExecute == null) {
     return Error("Payload is Empty")
   }
