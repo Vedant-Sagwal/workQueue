@@ -48,7 +48,7 @@ type Task = {
 ```
 
 The response will look like this:
-![Producer response](image-1.png)
+![Producer response](image1.png)
 
 ### 2. Worker
 
